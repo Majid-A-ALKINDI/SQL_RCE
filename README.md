@@ -2,22 +2,6 @@
 
 Interactive SQL Server command execution utility for authorized security testing.
 
-## Disclaimer
-
-**For educational and authorized security testing only.**
-
-This tool is designed for ethical hacking labs, penetration testing demos, and controlled research environments where you have explicit permission. Do not use it against systems you do not own or operate without written authorization.
-
-## Overview
-
-Microsoft SQL Server Remote Code Execution is a C# console application that:
-
-- Connects to a Microsoft SQL Server instance using Windows Integrated Authentication.
-- Attempts to impersonate `sa`.
-- Enables `xp_cmdshell` through `sp_configure`.
-- Provides an interactive command loop that runs OS commands through SQL Server.
-- Supports reconnecting to multiple servers in a single session.
-
 ## Current Capabilities
 
 - Interactive shell prompt for command execution.
@@ -27,6 +11,7 @@ Microsoft SQL Server Remote Code Execution is a C# console application that:
 - Built-in loop control commands:
 	- `exit`: disconnect and return to server selection.
 	- `quit`: terminate the program.
+
 
 ## Requirements
 
@@ -49,6 +34,13 @@ msbuild SQL_RCE.csproj /p:Configuration=Debug /v:minimal
 Output binary:
 
 - `bin/Debug/SQL_RCE.exe`
+
+
+## Demonstration
+
+The screenshot below shows the tool in action:
+
+![SQL_RCE demo](images/image1.png)
 
 ## Run
 
@@ -79,8 +71,19 @@ At the `command :::::>` prompt:
 - `exit`: disconnect current target and go back to server prompt.
 - `quit`: exit the tool.
 
-## Demonstration
+## Disclaimer
 
-The screenshot below shows the tool in action:
+**For educational and authorized security testing only.**
 
-![SQL_RCE demo](images/image1.png)
+This tool is designed for ethical hacking labs, penetration testing demos, and controlled research environments where you have explicit permission. Do not use it against systems you do not own or operate without written authorization.
+
+## Overview
+
+Microsoft SQL Server Remote Code Execution is a C# console application that:
+
+- Connects to a Microsoft SQL Server instance using Windows Integrated Authentication.
+- Attempts to impersonate `sa`.
+- Enables `xp_cmdshell` through `sp_configure`.
+- Provides an interactive command loop that runs OS commands through SQL Server.
+- Supports reconnecting to multiple servers in a single session.
+
