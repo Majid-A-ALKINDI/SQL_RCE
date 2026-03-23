@@ -1,54 +1,86 @@
-# SQL_RCE 
+# Microsoft SQL Server Remote Code Execution
 
-**⚠️ For Educational and Authorized Security Testing Only**
+Interactive SQL Server command execution utility for authorized security testing.
 
-This tool is a C# console application that connects to a Microsoft SQL Server instance using Windows Integrated Authentication and interacts with `xp_cmdshell` to execute system-level commands. It is intended for **ethical hacking labs, penetration testing demos, and research environments** where you have **explicit authorization**.
+## Disclaimer
 
----
+**For educational and authorized security testing only.**
 
-## ⚙️ Features
+This tool is designed for ethical hacking labs, penetration testing demos, and controlled research environments where you have explicit permission. Do not use it against systems you do not own or operate without written authorization.
 
-- Connects to a specified SQL Server instance using integrated (Windows) authentication.
-- Attempts to impersonate the `sa` login via `EXECUTE AS LOGIN`.
-- Enables advanced options and `xp_cmdshell` using `sp_configure`.
-- Provides an interactive command-line shell to run system commands via SQL Server.
+## Overview
 
----
+Microsoft SQL Server Remote Code Execution is a C# console application that:
 
-## 📦 Requirements
+- Connects to a Microsoft SQL Server instance using Windows Integrated Authentication.
+- Attempts to impersonate `sa`.
+- Enables `xp_cmdshell` through `sp_configure`.
+- Provides an interactive command loop that runs OS commands through SQL Server.
+- Supports reconnecting to multiple servers in a single session.
 
-- .NET SDK (for building the project)
-- SQL Server with:
-  - `xp_cmdshell` available (usually requires `sa` or sysadmin rights)
-  - Integrated Security (i.e., Windows authentication)
-  - Permissions to execute `EXECUTE AS LOGIN` and `xp_cmdshell`
+## Current Capabilities
 
----
+- Interactive shell prompt for command execution.
+- Toggleable verbose mode (`-v`, `--verbose`, or `verbose` during runtime).
+- Connection progress spinner in verbose mode.
+- Colored console output for prompts, status, warnings, and errors.
+- Built-in loop control commands:
+	- `exit`: disconnect and return to server selection.
+	- `quit`: terminate the program.
 
-## 🧪 Usage Instructions
+## Requirements
 
-### 🛠️ Build
+- Windows host with .NET Framework runtime compatible with the project.
+- Network connectivity to target SQL Server instance.
+- Valid Windows-authenticated access to SQL Server.
+- SQL Server permissions sufficient to run:
+	- `EXECUTE AS LOGIN = 'sa'`
+	- `sp_configure`
+	- `xp_cmdshell`
 
-You can build the project with the .NET CLI:
+## Build
 
-    ```bash
-      dotnet build
+From the project directory:
 
-▶️ Run
+```powershell
+msbuild SQL_RCE.csproj /p:Configuration=Debug /v:minimal
+```
 
-        SQL_RCE.exe
+Output binary:
 
-⌨️ Interact
+- `bin/Debug/SQL_RCE.exe`
 
-You'll be prompted to enter the SQL Server instance:
+## Run
 
-          Enter the SQL Server instance: YOUR_SQL_SERVER\INSTANCE
-          Auth success!
+Standard mode:
 
-Then you can run commands:
+```powershell
+.\bin\Debug\SQL_RCE.exe
+```
 
-        $command :::::> whoami
-        sqlserver\administrator
-        $command :::::> ipconfig
-        ...
-        $command :::::> exit
+Verbose mode:
+
+```powershell
+.\bin\Debug\SQL_RCE.exe -v
+```
+
+or:
+
+```powershell
+.\bin\Debug\SQL_RCE.exe --verbose
+```
+
+## Runtime Commands
+
+At the `command :::::>` prompt:
+
+- Enter any OS command to execute via `xp_cmdshell`.
+- `verbose`: toggle verbose mode on or off.
+- `exit`: disconnect current target and go back to server prompt.
+- `quit`: exit the tool.
+
+## Demonstration
+
+The screenshot below shows the tool in action:
+
+![SQL_RCE demo](images/image1.png)
